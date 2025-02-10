@@ -27,3 +27,8 @@ export const ENDPOINT_US_EXCHANGE_RATES = 'https://api.coinbase.com/v2/exchange-
  * @type {number}
  */
 export const EXCHANGE_RATES_TTL = 60 * 1000;
+
+/**
+ * Regex for checking valid float regex
+ */
+export const REGEX_FLOAT = new RegExp(/^\d*\.?\d*$/);

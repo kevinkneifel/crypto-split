@@ -11,31 +11,61 @@ import { fetchExchangeRates } from '@/lib/services/rate-service';
 /**
  * The key for the A coin in our split
  */
-export const coinKeyA = ref(DEFAULT_COIN_KEY_A);
+const _coinKeyA = ref(DEFAULT_COIN_KEY_A);
+
+/**
+ * Readonly copy of the A coin key
+ * @type {DeepReadonly<UnwrapNestedRefs<Ref<UnwrapRef<string>, UnwrapRef<string> | string>>>}
+ */
+export const coinKeyA = readonly(_coinKeyA);
 
 /**
  * The key for the B coin in our split
  */
-export const coinKeyB = ref(DEFAULT_COIN_KEY_B);
+const _coinKeyB = ref(DEFAULT_COIN_KEY_B);
 
 /**
- * The split for coin A
+ * Readonly copy of the B coin key
+ * @type {DeepReadonly<UnwrapNestedRefs<Ref<UnwrapRef<string>, UnwrapRef<string> | string>>>}
  */
-export const coinSplitA = ref(DEFAULT_RANGE_PERCENT);
+export const coinKeyB = readonly(_coinKeyB);
 
 /**
- * The split for coin B
+ * The percentage split for coin A
  */
-export const coinSplitB = computed(() => 100 - coinSplitA.value);
+const _coinSplitA = ref(DEFAULT_RANGE_PERCENT);
 
 /**
- * List of coins to be used for rendering dropdowns or search
+ * Readonly copy of coin A split
+ * @type {DeepReadonly<UnwrapNestedRefs<Ref<UnwrapRef<number>, UnwrapRef<number> | number>>>}
+ */
+export const coinSplitA = readonly(_coinSplitA);
+
+/**
+ * The percentage split for coin B
+ */
+const _coinSplitB = computed(() => 100 - _coinSplitA.value);
+
+/**
+ * Readonly copy of the coin B split
+ * @type {DeepReadonly<UnwrapNestedRefs<ComputedRef<unknown>>>}
+ */
+export const coinSplitB = readonly(_coinSplitB);
+
+/**
+ * List of coins that can be selected for splits
  * @type {Ref<*[], *[]> & {[ShallowRefMarker]?: true}}
  */
-export const coinList = ref([DEFAULT_COIN_KEY_A, DEFAULT_COIN_KEY_B]);
+const _coinList = ref([DEFAULT_COIN_KEY_A, DEFAULT_COIN_KEY_B]);
 
 /**
- * Our exchange rates data store
+ * Readonly copy of coins list
+ * @type {DeepReadonly<UnwrapNestedRefs<GlobalsApplescript.Ref<*[], *[]>&{ShallowRefMarker?: true}>>}
+ */
+export const coinList = readonly(_coinList);
+
+/**
+ * Exchange rates datastore for calculating allocations
  * @type {Reactive<{}>}
  */
 const _exchangeRates = reactive({
@@ -47,7 +77,7 @@ const _exchangeRates = reactive({
 });
 
 /**
- * A read only copy of the exchange rates store that will be used for rendering
+ * Readonly copy of the exchange rates datastore
  * @type {DeepReadonly<UnwrapNestedRefs<Reactive<{}>>>}
  */
 export const exchangeRates = readonly(_exchangeRates);
@@ -57,8 +87,7 @@ export const exchangeRates = readonly(_exchangeRates);
  * @param value
  */
 export function setCoinKeyA(value) {
-  // TODO: Type checking here (str)?
-  coinKeyA.value = value;
+  _coinKeyA.value = value;
 }
 
 /**
@@ -66,33 +95,30 @@ export function setCoinKeyA(value) {
  * @param value
  */
 export function setCoinKeyB(value) {
-  // TODO: Type checking here (str)?
-  coinKeyB.value = value;
+  _coinKeyB.value = value;
 }
 
 /**
- * Sets the splits for coin A and B, these ints should always === 100
- * @param valueA
- * @param valueB
+ * Sets the percentage splits for the coin refs, only coin A is set, coin B is a computed value
+ * @param value
  */
 export function setCoinSplits(value) {
-  // TODO: Type and sum checking here (int)?
-  coinSplitA.value = value;
+  _coinSplitA.value = value;
 }
 
 /**
  * Takes fetched rates object and sets the keys into the shallow coinList ref
  * @param rates
  */
-export function setCoinList(rates) {
-  coinList.value = parseCoinList(rates);
+function setCoinList(rates) {
+  _coinList.value = parseCoinList(rates);
 }
 
 /**
  * Takes fetched rates object and updates our exchange rates, sets TTL for one minute
  * @param rates
  */
-export function setExchangeRates(rates) {
+function setExchangeRates(rates) {
   _exchangeRates.rates = rates;
   _exchangeRates.ttl = Date.now() + EXCHANGE_RATES_TTL;
 }
