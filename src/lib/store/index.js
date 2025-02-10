@@ -1,11 +1,12 @@
-import { reactive, readonly, shallowRef, ref } from 'vue';
+import { computed, reactive, readonly, ref } from 'vue';
 import {
   DEFAULT_COIN_KEY_A,
   DEFAULT_COIN_KEY_B,
-  DEFAULT_SPLIT_A,
-  DEFAULT_SPLIT_B,
+  DEFAULT_RANGE_PERCENT,
   EXCHANGE_RATES_TTL
 } from '@/lib/constants';
+import { parseCoinList } from '@/lib/utils';
+import { fetchExchangeRates } from '@/lib/services/rate-service';
 
 /**
  * The key for the A coin in our split
@@ -20,33 +21,36 @@ export const coinKeyB = ref(DEFAULT_COIN_KEY_B);
 /**
  * The split for coin A
  */
-export const coinSplitA = ref(DEFAULT_SPLIT_A);
+export const coinSplitA = ref(DEFAULT_RANGE_PERCENT);
 
 /**
  * The split for coin B
  */
-export const coinSplitB = ref(DEFAULT_SPLIT_B);
+export const coinSplitB = computed(() => 100 - coinSplitA.value);
 
 /**
  * List of coins to be used for rendering dropdowns or search
  * @type {Ref<*[], *[]> & {[ShallowRefMarker]?: true}}
  */
-export const coinList = shallowRef([]);
+export const coinList = ref([DEFAULT_COIN_KEY_A, DEFAULT_COIN_KEY_B]);
 
 /**
  * Our exchange rates data store
  * @type {Reactive<{}>}
  */
-export const exchangeRatesBase = reactive({
-  rates: {},
-  ttl: null
+const _exchangeRates = reactive({
+  rates: {
+    [DEFAULT_COIN_KEY_A]: '0',
+    [DEFAULT_COIN_KEY_B]: '0'
+  },
+  ttl: Date.now()
 });
 
 /**
  * A read only copy of the exchange rates store that will be used for rendering
  * @type {DeepReadonly<UnwrapNestedRefs<Reactive<{}>>>}
  */
-export const exchangeRates = readonly(exchangeRatesBase);
+export const exchangeRates = readonly(_exchangeRates);
 
 /**
  * Sets the key value for coin A
@@ -71,10 +75,9 @@ export function setCoinKeyB(value) {
  * @param valueA
  * @param valueB
  */
-export function setCoinSplits(valueA, valueB) {
+export function setCoinSplits(value) {
   // TODO: Type and sum checking here (int)?
-  coinSplitA.value = valueA;
-  coinKeyB.value = valueB;
+  coinSplitA.value = value;
 }
 
 /**
@@ -82,9 +85,7 @@ export function setCoinSplits(valueA, valueB) {
  * @param rates
  */
 export function setCoinList(rates) {
-  Object.keys(rates).forEach((key) => {
-    coinList.value.push(key);
-  });
+  coinList.value = parseCoinList(rates);
 }
 
 /**
@@ -92,6 +93,32 @@ export function setCoinList(rates) {
  * @param rates
  */
 export function setExchangeRates(rates) {
-  exchangeRatesBase.rates = rates;
-  exchangeRatesBase.ttl = Date.now() + EXCHANGE_RATES_TTL;
+  _exchangeRates.rates = rates;
+  _exchangeRates.ttl = Date.now() + EXCHANGE_RATES_TTL;
+}
+
+/**
+ * Refreshes exchange rates based on whether the TTL for the last set of rates has passed
+ * @returns {Promise<unknown>}
+ */
+export function refreshExchangeRates(init = false) {
+  return new Promise((resolve, reject) => {
+    if (Date.now() > _exchangeRates.ttl || init === true) {
+      fetchExchangeRates()
+        .then((rates) => {
+          // Set our exchange rates and the TTL until we query this again
+          setExchangeRates(rates);
+          if (init === true) {
+            // Set the coin list ref, we only want to do this on init (for page load)
+            setCoinList(rates);
+          }
+          resolve(true);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    } else {
+      resolve(true);
+    }
+  });
 }

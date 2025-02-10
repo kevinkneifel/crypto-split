@@ -11,16 +11,10 @@ export const DEFAULT_COIN_KEY_A = 'BTC';
 export const DEFAULT_COIN_KEY_B = 'ETH';
 
 /**
- * The default A coin split when app loads
+ * The default range for coin splits when app loads
  * @type {number}
  */
-export const DEFAULT_SPLIT_A = 70;
-
-/**
- * The default B coin split when app loads
- * @type {number}
- */
-export const DEFAULT_SPLIT_B = 30;
+export const DEFAULT_RANGE_PERCENT = 70;
 
 /**
  * Coinbase API endpoint for US crypto exchange rates
@@ -32,4 +26,4 @@ export const ENDPOINT_US_EXCHANGE_RATES = 'https://api.coinbase.com/v2/exchange-
  * Our TTL for how long the exchange rates object is considered fresh, default is 60 seconds
  * @type {number}
  */
-export const EXCHANGE_RATES_TTL = 60;
+export const EXCHANGE_RATES_TTL = 60 * 1000;

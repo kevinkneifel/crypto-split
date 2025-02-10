@@ -5,7 +5,7 @@ import { validateObjResponse } from '@/lib/services';
 
 /**
  * Fetches the crypto exchange rates from coinbase
- * @returns {Promise<void>}
+ * @returns {Promise<unknown>}
  */
 export function fetchExchangeRates() {
   return new Promise((resolve, reject) => {
