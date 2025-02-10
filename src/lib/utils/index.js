@@ -21,7 +21,7 @@ export function parseCoinList(rates) {
 export function calculateAllocation(total, percent, rate) {
   const floatTotal = parseFloat(total);
   if (floatTotal !== floatTotal) {
-    // Return zero if we can't convert value to a float
+    // Return zero if we can't convert value to a float (redundant, but safe)
     return 0;
   } else {
     return floatTotal * (percent / 100) * rate;

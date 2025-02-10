@@ -30,5 +30,6 @@ export const EXCHANGE_RATES_TTL = 60 * 1000;
 
 /**
  * Regex for checking valid float regex
+ * @type {RegExp}
  */
 export const REGEX_FLOAT = new RegExp(/^\d*\.?\d*$/);

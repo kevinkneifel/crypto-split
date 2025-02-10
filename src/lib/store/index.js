@@ -10,39 +10,47 @@ import { fetchExchangeRates } from '@/lib/services/rate-service';
 
 /**
  * The key for the A coin in our split
+ * @type {Ref<UnwrapRef<string>, UnwrapRef<string> | string>}
+ * @private
  */
 const _coinKeyA = ref(DEFAULT_COIN_KEY_A);
 
 /**
  * Readonly copy of the A coin key
- * @type {DeepReadonly<UnwrapNestedRefs<Ref<UnwrapRef<string>, UnwrapRef<string> | string>>>}
+ * @type {DeepReadonly<UnwrapNestedRefs<Ref<UnwrapRef<string>, UnwrapRef<string>|string>>>}
  */
 export const coinKeyA = readonly(_coinKeyA);
 
 /**
  * The key for the B coin in our split
+ * @type {Ref<UnwrapRef<string>, UnwrapRef<string> | string>}
+ * @private
  */
 const _coinKeyB = ref(DEFAULT_COIN_KEY_B);
 
 /**
  * Readonly copy of the B coin key
- * @type {DeepReadonly<UnwrapNestedRefs<Ref<UnwrapRef<string>, UnwrapRef<string> | string>>>}
+ * @type {DeepReadonly<UnwrapNestedRefs<Ref<UnwrapRef<string>, UnwrapRef<string>|string>>>}
  */
 export const coinKeyB = readonly(_coinKeyB);
 
 /**
  * The percentage split for coin A
+ * @type {Ref<UnwrapRef<number>, UnwrapRef<number> | number>}
+ * @private
  */
 const _coinSplitA = ref(DEFAULT_RANGE_PERCENT);
 
 /**
  * Readonly copy of coin A split
- * @type {DeepReadonly<UnwrapNestedRefs<Ref<UnwrapRef<number>, UnwrapRef<number> | number>>>}
+ * @type {DeepReadonly<UnwrapNestedRefs<Ref<UnwrapRef<number>, UnwrapRef<number>|number>>>}
  */
 export const coinSplitA = readonly(_coinSplitA);
 
 /**
  * The percentage split for coin B
+ * @type {ComputedRef<unknown>}
+ * @private
  */
 const _coinSplitB = computed(() => 100 - _coinSplitA.value);
 
@@ -54,19 +62,21 @@ export const coinSplitB = readonly(_coinSplitB);
 
 /**
  * List of coins that can be selected for splits
- * @type {Ref<*[], *[]> & {[ShallowRefMarker]?: true}}
+ * @type {Ref<UnwrapRef<string[]>, UnwrapRef<string[]> | string[]>}
+ * @private
  */
 const _coinList = ref([DEFAULT_COIN_KEY_A, DEFAULT_COIN_KEY_B]);
 
 /**
  * Readonly copy of coins list
- * @type {DeepReadonly<UnwrapNestedRefs<GlobalsApplescript.Ref<*[], *[]>&{ShallowRefMarker?: true}>>}
+ * @type {DeepReadonly<UnwrapNestedRefs<Ref<UnwrapRef<string[]>, UnwrapRef<string[]>|string[]>>>}
  */
 export const coinList = readonly(_coinList);
 
 /**
  * Exchange rates datastore for calculating allocations
- * @type {Reactive<{}>}
+ * @type {Reactive<{rates: {[p: string]: string}, ttl: number}>}
+ * @private
  */
 const _exchangeRates = reactive({
   rates: {
@@ -78,7 +88,7 @@ const _exchangeRates = reactive({
 
 /**
  * Readonly copy of the exchange rates datastore
- * @type {DeepReadonly<UnwrapNestedRefs<Reactive<{}>>>}
+ * @type {DeepReadonly<UnwrapNestedRefs<Reactive<{rates: {[p: string]: string}, ttl: number}>>>}
  */
 export const exchangeRates = readonly(_exchangeRates);
 
@@ -125,6 +135,7 @@ function setExchangeRates(rates) {
 
 /**
  * Refreshes exchange rates based on whether the TTL for the last set of rates has passed
+ * @param init
  * @returns {Promise<unknown>}
  */
 export function refreshExchangeRates(init = false) {
