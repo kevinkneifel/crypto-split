@@ -5,7 +5,7 @@
   // Fetch the first set of exchange rates and set our coin list
   refreshExchangeRates(true)
     .catch((error) => {
-      // TODO: We'll want an error component and watched ref that this can update
+      // TODO: Push error to store and render in the alerts component
     })
 </script>
 

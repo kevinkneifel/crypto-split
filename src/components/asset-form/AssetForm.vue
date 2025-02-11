@@ -26,7 +26,7 @@ function setAssetAllocations(value) {
     allocationA.value = calculateAllocation(value, coinSplitA.value, exchangeRates.rates[coinKeyA.value])
     allocationB.value = calculateAllocation(value, coinSplitB.value, exchangeRates.rates[coinKeyB.value])
   }).catch((error) => {
-    // TODO: We'll want an error component and watched ref that this can update
+    // TODO: Push error to store and render in the alerts component
   });
 }
 
