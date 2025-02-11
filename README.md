@@ -1,7 +1,7 @@
 # Crypto Split
 
 ## About
-**Crypto Split** is a fun little app that splits a given USD amount into two different allocations of cryptocurrency. The default split is 70/30 for `BTC`/`ETH`, but I've gone ahead and made it so you can do splits based on any of the coins returned by the `https://api.coinbase.com/v2/exchange-rates?currency=USD` exchange rates endpoint. It is also possible to set the split percentage between each coin via the range slider.
+**Crypto Split** is a fun little app that calculates how to split a given amount of USD between two different cryptocurrencies. The default split is 70/30 for `BTC`/`ETH`, but I've gone ahead and made it so you can do splits based on any of the coins returned by the `https://api.coinbase.com/v2/exchange-rates?currency=USD` exchange rates endpoint. It is also possible to set the split percentage between each coin via the range slider.
 
 This app is built in [Vue.js](https://vuejs.org/)!
 
