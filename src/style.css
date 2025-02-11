@@ -4,9 +4,7 @@
   --cs-link-color: #0000e0;
   --cs-error-color: #d00;
   --cs-border-color: #bbb;
-
   --cs-font-family: "Courier New", Courier;
-
   --cs-border-radius: 8px;
 
   background-color: var(--cs-background-color);
@@ -14,7 +12,7 @@
   color-scheme: light;
   font-family: var( --cs-font-family), sans-serif;
   font-weight: normal;
-  line-height: 1.5;
+  line-height: 1.5em;
   text-rendering: optimizeLegibility;
 
   -webkit-font-smoothing: antialiased;
@@ -24,7 +22,7 @@
 #app {
   margin: 0 auto;
   max-width: 768px;
-  padding: 2rem;
+  padding: 2em;
   text-align: center;
 }
 
@@ -47,7 +45,7 @@ body {
 
 h1 {
   font-size: 3.2em;
-  line-height: 1.1;
+  line-height: 1em;
 }
 
 input {
