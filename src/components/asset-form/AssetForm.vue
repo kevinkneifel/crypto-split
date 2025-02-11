@@ -5,7 +5,6 @@ import {
   coinKeyB,
   coinSplitA,
   coinSplitB,
-  coinList,
   exchangeRates,
   setCoinSplits,
   setCoinKeyA,
@@ -14,6 +13,9 @@ import {
 } from '@/lib/store';
 import { calculateAllocation } from '@/lib/utils';
 import { REGEX_FLOAT } from '@/lib/constants';
+import AllocationField from '@/components/asset-form/AllocationField.vue';
+import CoinSelectField from '@/components/asset-form/CoinSelectField.vue';
+import SplitRangeField from '@/components/asset-form/SplitRangeField.vue';
 
 const allocationA = ref(0);
 const allocationB = ref(0);
@@ -52,64 +54,63 @@ function onCoinBUpdate(e) {
   setCoinKeyB(e.target.value)
   setAssetAllocations(investment.value);
 }
+
 </script>
 
 <template>
   <div class="asset-form">
     <div class="asset-form__row">
-      <label for="investment" aria-label="Investable assets in USD">USD Investable Assets</label>
-      $<input
-        v-model="investment"
-        id="investment"
-        name="investment"
-        type="text"
-        @beforeinput="validateFloatInput"
-        @keyup="onInvestmentChange"
+      <div class="asset-form__input">
+        <label for="investment" aria-label="Investable assets in USD">
+          USD Investable Assets
+        </label>
+        $<input
+          v-model="investment"
+          id="investment"
+          name="investment"
+          type="text"
+          @beforeinput="validateFloatInput"
+          @keyup="onInvestmentChange"
+        />
+      </div>
+    </div>
+
+    <div class="asset-form__row">
+      <CoinSelectField
+        field-name="coin-a"
+        :coin-key-value="String(coinKeyA)"
+        :coin-split-value="Number(coinSplitA)"
+        :on-change="onCoinAUpdate"
+      />
+
+      <SplitRangeField
+        field-name="split-range"
+        :coin-split-value="Number(coinSplitA)"
+        :on-input="onRangeUpdate"
+      />
+
+      <CoinSelectField
+        field-name="coin-b"
+        :coin-key-value="String(coinKeyB)"
+        :coin-split-value="Number(coinSplitB)"
+        :on-change="onCoinBUpdate"
       />
     </div>
 
     <div class="asset-form__row">
-      <div>
-        <label for="coin-a" :aria-label="`Cryptocurrency for ${coinSplitA}% share`">
-          {{ coinSplitA }}%
-        </label>
-        <select id="coin-a" name="coin-a" @change="onCoinAUpdate">
-          <option v-for="coin in coinList" :value="coin" :selected="coin === coinKeyA">{{ coin }}</option>
-        </select>
-      </div>
+      <AllocationField
+        field-name="asset-a"
+        :allocation-value="Number(allocationA)"
+        :coin-key-value="String(coinKeyA)"
+        :coin-split-value="Number(coinSplitA)"
+      />
 
-      <div>
-        <input
-          name="range"
-          type="range"
-          min="0"
-          max="100"
-          :value="coinSplitA"
-          @input="onRangeUpdate"
-          :aria-label="`Percentage split for shares`"
-        />
-      </div>
-
-      <div>
-        <label for="coin-b" :aria-label="`Cryptocurrency for ${coinSplitB}% share`">
-          {{ coinSplitB }}%
-        </label>
-        <select id="coin-b" name="coin-b" @change="onCoinBUpdate">
-          <option v-for="coin in coinList" :value="coin" :selected="coin === coinKeyB">{{ coin }}</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="asset-form__row">
-      <div>
-        <label for="asset-a" :aria-label="`${coinSplitA}% ${coinKeyA} allocation`">{{ coinKeyA }} Allocation</label>
-        <input id="asset-a" name="asset-a" type="text" :value="allocationA" readonly />
-      </div>
-
-      <div>
-        <label for="asset-b" :aria-label="`${coinSplitB}% ${coinKeyB} allocation`">{{ coinKeyB }} Allocation</label>
-        <input id="asset-b" name="asset-b" type="text" :value="allocationB" readonly />
-      </div>
+      <AllocationField
+        field-name="asset-b"
+        :allocation-value="Number(allocationB)"
+        :coin-key-value="String(coinKeyB)"
+        :coin-split-value="Number(coinSplitB)"
+      />
     </div>
   </div>
 </template>
