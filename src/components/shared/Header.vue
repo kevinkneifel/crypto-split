@@ -9,7 +9,3 @@ const description = "A funky little tool for calculating how to split a given am
     <p>{{ description }}</p>
   </header>
 </template>
-
-<style scoped>
-
-</style>

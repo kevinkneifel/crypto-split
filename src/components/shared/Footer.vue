@@ -10,7 +10,3 @@ const message = 'Kevin Kneifel made this and hopes you enjoy it!'
     </p>
   </footer>
 </template>
-
-<style scoped>
-
-</style>

@@ -60,17 +60,18 @@ function onCoinBUpdate(e) {
 <template>
   <section class="asset-form">
     <div class="asset-form__row">
-      <div class="asset-form__input">
+      <div class="asset-form__field asset-form__field--half">
         <label for="investment" aria-label="Investable assets in USD">
           USD Investable Assets
         </label>
-        $<input
+        <input
           v-model="investment"
           id="investment"
           name="investment"
           type="text"
           @beforeinput="validateFloatInput"
           @keyup="onInvestmentChange"
+          autofocus
         />
       </div>
     </div>
@@ -116,5 +117,40 @@ function onCoinBUpdate(e) {
 </template>
 
 <style scoped>
+.asset-form {
+  margin: 2em 0;
+}
 
+.asset-form__row {
+  display: flex;
+  justify-content: center;
+  margin: 1em 0;
+}
+
+.asset-form__field {
+  flex-grow: 1;
+  padding: 0em 1em;
+  width: 50%;
+}
+
+.asset-form__field--half {
+  flex-grow: 0;
+  width: 50%
+}
+
+@media only screen and (max-width: 600px) {
+  .asset-form__row {
+    display: inherit;
+    margin: 0;
+  }
+
+  .asset-form__field {
+    margin: 1em 0;
+    width: auto;
+  }
+
+  .asset-form__field--half {
+    width: inherit;
+  }
+}
 </style>

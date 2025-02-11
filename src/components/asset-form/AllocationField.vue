@@ -20,14 +20,10 @@ defineProps({
 </script>
 
 <template>
-  <div class="asset-form__readonly">
+  <div class="asset-form__field">
     <label :for="fieldName" :aria-label="`${coinSplitValue}% ${[coinKeyValue]} allocation`">
       {{ coinKeyValue }} Allocation
     </label>
     <input :id="fieldName" :name="fieldName" type="text" :value="allocationValue" readonly />
   </div>
 </template>
-
-<style scoped>
-
-</style>
