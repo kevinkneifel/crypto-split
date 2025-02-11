@@ -16,7 +16,7 @@ npm i && npm run dev
 
 Due to time constraints there are few choices I made to speed up development, as well as some things I would probably change if I were to keep working on this:
 
-- A lot has changed since I lasted used Vue.js (Vue2), so I prioritized acquainting myself with the Vue3 Composition API over writing this app in TypeScript—if I had more time I'd rewrite this in TypeScript to save some redundant type checking (and because Vue.js has native support for it)
+- A lot has changed since I last used Vue.js, so I prioritized acquainting myself with the Vue3 Composition API over writing this app in TypeScript—if I had more time I'd rewrite this in TypeScript to save some redundant type checking (and because Vue.js has native support for it)
 - I did a little bit of extra tooling on this, including breaking external requests out into services and stubbing out a `Logger` singleton (which would eventually send errors to something like Rollbar or Sentry)
 - I used `axios` for external service requests, mostly because it has dependable error handling that `fetch()` doesn't have out of the box
 - I included descriptive `aria-labels` for form fields and kept the form elements native to make this as accessible as possible—the app is easily navigated with a screen reading assistant (such as Mac `Cmd`+`F5`)
