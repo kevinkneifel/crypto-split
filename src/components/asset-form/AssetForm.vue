@@ -58,7 +58,7 @@ function onCoinBUpdate(e) {
 </script>
 
 <template>
-  <div class="asset-form">
+  <section class="asset-form">
     <div class="asset-form__row">
       <div class="asset-form__input">
         <label for="investment" aria-label="Investable assets in USD">
@@ -112,7 +112,7 @@ function onCoinBUpdate(e) {
         :coin-split-value="Number(coinSplitB)"
       />
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>

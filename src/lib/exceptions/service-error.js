@@ -1,4 +1,4 @@
-import Logger from '@/lib/singletons/logger';
+import Logger from '@/lib/utils/logger.js';
 
 class ServiceError extends Error {
   /**

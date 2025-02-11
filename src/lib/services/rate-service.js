@@ -1,7 +1,7 @@
 import axios from 'axios';
 import ServiceError from '@/lib/exceptions/service-error';
 import { ENDPOINT_US_EXCHANGE_RATES } from '@/lib/constants';
-import { validateObjResponse } from '@/lib/services';
+import { validateObjResponse } from '@/lib/utils';
 
 /**
  * Fetches the crypto exchange rates from coinbase
