@@ -9,7 +9,7 @@ import {
   setCoinSplits,
   setCoinKeyA,
   setCoinKeyB,
-  refreshExchangeRates
+  refreshExchangeRates, setAlert
 } from '@/lib/store';
 import { calculateAllocation } from '@/lib/utils';
 import { REGEX_FLOAT } from '@/lib/constants';
@@ -21,37 +21,61 @@ const allocationA = ref(0);
 const allocationB = ref(0);
 const investment = defineModel('investment', { type: Number })
 
+/**
+ * Refreshes the rates if we're over the TTL, calculates our allocations
+ * @param value
+ */
 function setAssetAllocations(value) {
   refreshExchangeRates().then(() => {
-    allocationA.value = calculateAllocation(value, coinSplitA.value, exchangeRates.rates[coinKeyA.value])
-    allocationB.value = calculateAllocation(value, coinSplitB.value, exchangeRates.rates[coinKeyB.value])
-  }).catch((error) => {
-    // TODO: Push error to store and render in the alerts component
+    allocationA.value = calculateAllocation(value, coinSplitA.value, exchangeRates.rates[coinKeyA.value]);
+    allocationB.value = calculateAllocation(value, coinSplitB.value, exchangeRates.rates[coinKeyB.value]);
+  })
+  .catch((error) => {
+    setAlert(error.message);
   });
 }
 
-function onInvestmentChange(e) {
+/**
+ * Updates allocations when the investment amount changes
+ */
+function onInvestmentChange() {
   setAssetAllocations(investment.value);
 }
 
+/**
+ * Prevents entering anything but a USD dollar value in the investment field
+ * @param e
+ */
 function validateFloatInput(e) {
   if (e.data && !REGEX_FLOAT.test(e.target.value + e.data)) {
     e.preventDefault();
   }
 }
 
+/**
+ * Updates splits and allocations
+ * @param e
+ */
 function onRangeUpdate(e) {
   setCoinSplits(e.target.value);
   setAssetAllocations(investment.value);
 }
 
+/**
+ * Updates coin A type and the allocations
+ * @param e
+ */
 function onCoinAUpdate(e) {
-  setCoinKeyA(e.target.value)
+  setCoinKeyA(e.target.value);
   setAssetAllocations(investment.value);
 }
 
+/**
+ * Updates coin B type and the allocations
+ * @param e
+ */
 function onCoinBUpdate(e) {
-  setCoinKeyB(e.target.value)
+  setCoinKeyB(e.target.value);
   setAssetAllocations(investment.value);
 }
 

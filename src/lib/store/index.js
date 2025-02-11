@@ -1,12 +1,33 @@
 import { computed, reactive, readonly, ref } from 'vue';
 import {
+  ALERT_TYPE_ERROR,
   DEFAULT_COIN_KEY_A,
   DEFAULT_COIN_KEY_B,
   DEFAULT_RANGE_PERCENT,
-  EXCHANGE_RATES_TTL
+  EXCHANGE_RATES_TTL,
 } from '@/lib/constants';
 import { parseCoinList } from '@/lib/utils';
 import { fetchExchangeRates } from '@/lib/services/rate-service';
+
+/**
+ * List for app alerts, errors, messages, etc
+ * @type {Reactive<*[]>}
+ * @private
+ */
+const _alerts = ref([]);
+
+/**
+ * Readonly copy of the alerts list
+ * @type {DeepReadonly<UnwrapNestedRefs<Reactive<*[]>>>}
+ */
+export const alerts = readonly(_alerts);
+
+/**
+ * Iterative ref for managing unique alert IDs
+ * @type {Ref<UnwrapRef<number>, UnwrapRef<number> | number>}
+ * @private
+ */
+const _alertID = ref(0);
 
 /**
  * The key for the A coin in our split
@@ -91,6 +112,24 @@ const _exchangeRates = reactive({
  * @type {DeepReadonly<UnwrapNestedRefs<Reactive<{rates: {[p: string]: string}, ttl: number}>>>}
  */
 export const exchangeRates = readonly(_exchangeRates);
+
+/**
+ * Sets an alert to be rendered by the alerts header
+ * @param message
+ * @param type
+ */
+export function setAlert(message, type=ALERT_TYPE_ERROR) {
+  _alerts.value.push({ id: _alertID.value, message: message, type: type });
+  _alertID.value++;
+}
+
+/**
+ * Removes an alert from the alerts list
+ * @param id
+ */
+export function unsetAlert(id) {
+  _alerts.value = _alerts.value.filter((a) => a.id !== id);
+}
 
 /**
  * Sets the key value for coin A

@@ -2,8 +2,10 @@
   --cs-background-color: #fff;
   --cs-text-color: #212;
   --cs-link-color: #0000e0;
-  --cs-error-color: #d00;
+  --cs-error-color: #f00;
+  --cs-error-hover-color: #a00;
   --cs-border-color: #bbb;
+  --cs-border-readonly: #eee;
   --cs-font-family: "Courier New", Courier;
   --cs-border-radius: 8px;
 
@@ -65,6 +67,11 @@ input[type=text] {
 input[type=text]:focus {
   border-color: var(--cs-link-color);
   outline: none;
+}
+
+input[readonly],
+input[readonly]:focus {
+  border-color: var(--cs-border-readonly);
 }
 
 label {

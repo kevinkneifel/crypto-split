@@ -29,7 +29,7 @@ defineProps({
     </label>
     <div class="select">
       <select :id="fieldName" :name="fieldName" @change="onChange">
-        <option v-for="coin in coinList" :value="coin" :selected="coin === coinKeyValue">
+        <option v-for="coin in coinList" :value="coin" :selected="coin === coinKeyValue" :key="coin">
           {{ coin }}
         </option>
       </select>

@@ -1,5 +1,5 @@
 <script setup>
-  import { refreshExchangeRates } from '@/lib/store';
+  import { refreshExchangeRates, setAlert } from '@/lib/store';
   import AssetForm from '@/components/asset-form/AssetForm.vue';
   import Alerts from '@/components/shared/Alerts.vue';
   import Header from '@/components/shared/Header.vue';
@@ -8,8 +8,8 @@
   // Fetch the first set of exchange rates and set our coin list
   refreshExchangeRates(true)
     .catch((error) => {
-      // TODO: Push error to store and render in the alerts component
-    })
+      setAlert(error.message);
+    });
 </script>
 
 <template>

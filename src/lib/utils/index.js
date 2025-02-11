@@ -15,7 +15,6 @@ export function calculateAllocation(total, percent, rate) {
   }
 }
 
-
 /**
  * Parses rates object and returns an array of keys
  * @param rates
