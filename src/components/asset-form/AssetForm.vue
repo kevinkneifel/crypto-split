@@ -7,9 +7,10 @@ import {
   coinSplitB,
   exchangeRates,
   setCoinSplits,
+  setAlert,
   setCoinKeyA,
   setCoinKeyB,
-  refreshExchangeRates, setAlert
+  refreshExchangeRates
 } from '@/lib/store';
 import { calculateAllocation } from '@/lib/utils';
 import { REGEX_FLOAT } from '@/lib/constants';
